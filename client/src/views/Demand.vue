@@ -14,7 +14,7 @@
             <div class="trend-icon">↑</div>
             <div>
               <div class="trend-label">{{ t('demand.increasingDemand') }}</div>
-              <div class="trend-count">{{ t('demand.itemsCount', { count: getForecastsByTrend('increasing').length }) }}</div>
+              <div class="trend-count">{{ plural('demand.itemsCount', getForecastsByTrend('increasing').length) }}</div>
             </div>
           </div>
           <div class="trend-items">
@@ -33,7 +33,7 @@
             <div class="trend-icon">→</div>
             <div>
               <div class="trend-label">{{ t('demand.stableDemand') }}</div>
-              <div class="trend-count">{{ t('demand.itemsCount', { count: getForecastsByTrend('stable').length }) }}</div>
+              <div class="trend-count">{{ plural('demand.itemsCount', getForecastsByTrend('stable').length) }}</div>
             </div>
           </div>
           <div class="trend-items">
@@ -52,7 +52,7 @@
             <div class="trend-icon">↓</div>
             <div>
               <div class="trend-label">{{ t('demand.decreasingDemand') }}</div>
-              <div class="trend-count">{{ t('demand.itemsCount', { count: getForecastsByTrend('decreasing').length }) }}</div>
+              <div class="trend-count">{{ plural('demand.itemsCount', getForecastsByTrend('decreasing').length) }}</div>
             </div>
           </div>
           <div class="trend-items">
@@ -119,7 +119,7 @@ import { useI18n } from '../composables/useI18n'
 export default {
   name: 'Demand',
   setup() {
-    const { t } = useI18n()
+    const { t, plural } = useI18n()
     const loading = ref(true)
     const error = ref(null)
     const allForecasts = ref([])
@@ -211,6 +211,7 @@ export default {
 
     return {
       t,
+      plural,
       loading,
       error,
       forecasts,

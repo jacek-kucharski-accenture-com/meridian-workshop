@@ -51,7 +51,7 @@
                 <td class="col-items">
                   <details class="items-details">
                     <summary class="items-summary">
-                      {{ t('orders.itemsCount', { count: order.items.length }) }}
+                      {{ plural('orders.itemsCount', order.items.length) }}
                     </summary>
                     <div class="items-dropdown">
                       <div v-for="(item, idx) in order.items" :key="idx" class="item-entry">
@@ -88,7 +88,7 @@ import { formatCurrency as formatCurrencyUtil } from '../utils/currency'
 export default {
   name: 'Orders',
   setup() {
-    const { t, currentCurrency, currentNumberLocale, translateProductName, translateCustomerName } = useI18n()
+    const { t, plural, currentCurrency, currentNumberLocale, translateProductName, translateCustomerName } = useI18n()
 
     const formatCurrency = (amount) =>
       formatCurrencyUtil(amount, currentCurrency.value, currentNumberLocale.value)
@@ -164,6 +164,7 @@ export default {
       getOrderStatusClass,
       formatDate,
       formatCurrency,
+      plural,
       translateProductName,
       translateCustomerName
     }

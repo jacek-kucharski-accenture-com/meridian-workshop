@@ -61,8 +61,10 @@ export default {
       shortage: 'Shortage',
       daysDelayed: 'Days Delayed',
       priority: 'Priority',
-      unitsShort: 'units short',
-      days: 'days'
+      unitsShort_one: '1 unit short',
+      unitsShort_other: '{n} units short',
+      days_one: '1 day',
+      days_other: '{n} days'
     },
     topProducts: {
       title: 'Top Products by Revenue',
@@ -117,7 +119,8 @@ export default {
     totalRevenue: 'Total Revenue',
     avgOrderValue: 'Avg Order Value',
     onTimeDelivery: 'On-Time Delivery',
-    itemsCount: '{count} items',
+    itemsCount_one: '1 item',
+    itemsCount_other: '{count} items',
     quantity: 'Qty',
     table: {
       orderNumber: 'Order Number',
@@ -181,7 +184,8 @@ export default {
     increasingDemand: 'Increasing Demand',
     stableDemand: 'Stable Demand',
     decreasingDemand: 'Decreasing Demand',
-    itemsCount: '{count} items',
+    itemsCount_one: '1 item',
+    itemsCount_other: '{count} items',
     more: 'more...',
     demandForecasts: 'Demand Forecasts',
     table: {
@@ -239,8 +243,10 @@ export default {
     totalItems: 'Total Backlog Items',
     cardTitle: 'Backlog Items',
     noItems: 'No backlog items — all orders can be fulfilled!',
-    unitsShort: '{n} units short',
-    days: '{n} days',
+    unitsShort_one: '1 unit short',
+    unitsShort_other: '{n} units short',
+    days_one: '1 day',
+    days_other: '{n} days',
     table: {
       orderId: 'Order ID',
       sku: 'SKU',

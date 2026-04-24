@@ -195,12 +195,12 @@
                   <td @click="showBacklogDetail(item)" style="cursor: pointer;">{{ item.quantity_available }}</td>
                   <td @click="showBacklogDetail(item)" style="cursor: pointer;">
                     <span class="badge danger">
-                      {{ Math.abs(item.quantity_needed - item.quantity_available) }} {{ t('dashboard.inventoryShortages.unitsShort') }}
+                      {{ plural('dashboard.inventoryShortages.unitsShort', Math.abs(item.quantity_needed - item.quantity_available)) }}
                     </span>
                   </td>
                   <td @click="showBacklogDetail(item)" style="cursor: pointer;">
                     <span :style="{ color: item.days_delayed > 7 ? '#ef4444' : '#f59e0b', fontWeight: 600 }">
-                      {{ item.days_delayed }} {{ t('dashboard.inventoryShortages.days') }}
+                      {{ plural('dashboard.inventoryShortages.days', item.days_delayed) }}
                     </span>
                   </td>
                   <td @click="showBacklogDetail(item)" style="cursor: pointer;">
@@ -312,7 +312,7 @@ export default {
     BacklogDetailModal,
   },
   setup() {
-    const { t, currentCurrency, currentNumberLocale, translateProductName, translateWarehouse } = useI18n()
+    const { t, plural, currentCurrency, currentNumberLocale, translateProductName, translateWarehouse } = useI18n()
     const loading = ref(true)
     const error = ref(null)
     const summary = ref({})
@@ -680,6 +680,7 @@ export default {
 
     return {
       t,
+      plural,
       loading,
       error,
       summary,

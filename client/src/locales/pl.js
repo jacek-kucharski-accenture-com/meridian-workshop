@@ -59,8 +59,10 @@ export default {
       shortage: 'Niedobór',
       daysDelayed: 'Dni opóźnienia',
       priority: 'Priorytet',
-      unitsShort: 'brak. szt.',
-      days: 'dni'
+      unitsShort_one: 'brak 1 szt.',
+      unitsShort_other: 'brak {n} szt.',
+      days_one: '1 dzień',
+      days_other: '{n} dni'
     },
     topProducts: {
       title: 'Najlepsze produkty wg przychodu',
@@ -113,7 +115,8 @@ export default {
     totalRevenue: 'Łączny przychód',
     avgOrderValue: 'Śr. wartość zamówienia',
     onTimeDelivery: 'Terminowość dostaw',
-    itemsCount: '{count} szt.',
+    itemsCount_one: '1 szt.',
+    itemsCount_other: '{count} szt.',
     quantity: 'Ilość',
     table: {
       orderNumber: 'Numer zamówienia',
@@ -175,7 +178,8 @@ export default {
     increasingDemand: 'Rosnący popyt',
     stableDemand: 'Stabilny popyt',
     decreasingDemand: 'Malejący popyt',
-    itemsCount: '{count} pozycji',
+    itemsCount_one: '1 pozycja',
+    itemsCount_other: '{count} pozycji',
     more: 'więcej...',
     demandForecasts: 'Prognozy popytu',
     table: {
@@ -231,8 +235,10 @@ export default {
     totalItems: 'Łączna liczba zaległości',
     cardTitle: 'Pozycje zaległe',
     noItems: 'Brak zaległości — wszystkie zamówienia mogą być zrealizowane!',
-    unitsShort: 'brak {n} szt.',
-    days: '{n} dni',
+    unitsShort_one: 'brak 1 szt.',
+    unitsShort_other: 'brak {n} szt.',
+    days_one: '1 dzień',
+    days_other: '{n} dni',
     table: {
       orderId: 'ID zamówienia',
       sku: 'SKU',

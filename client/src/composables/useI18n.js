@@ -62,6 +62,30 @@ export function useI18n() {
     })
   }
 
+  // Returns suffix candidates from most-specific to least-specific for a given count
+  const getPluralSuffixes = (count) => {
+    if (currentLocale.value === 'pl') {
+      if (count === 1) return ['_one']
+      const mod10 = Math.abs(count) % 10
+      const mod100 = Math.abs(count) % 100
+      // 2-4 but not 12-14
+      if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return ['_few', '_other']
+      return ['_many', '_other']
+    }
+    return count === 1 ? ['_one'] : ['_other']
+  }
+
+  // Plural-aware translation: tries key+suffix, falls back to base key
+  const plural = (key, count, params = {}) => {
+    const allParams = { n: count, count, ...params }
+    for (const suffix of getPluralSuffixes(count)) {
+      const pluralKey = key + suffix
+      const result = t(pluralKey, allParams)
+      if (result !== pluralKey) return result
+    }
+    return t(key, allParams)
+  }
+
   const setLocale = (locale) => {
     if (translations[locale]) {
       currentLocale.value = locale
@@ -123,6 +147,7 @@ export function useI18n() {
 
   return {
     t,
+    plural,
     setLocale,
     currentLocale: computed(() => currentLocale.value),
     currentCurrency,

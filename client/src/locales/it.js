@@ -59,8 +59,10 @@ export default {
       shortage: 'Carenza',
       daysDelayed: 'Giorni di ritardo',
       priority: 'Priorità',
-      unitsShort: 'unità mancanti',
-      days: 'giorni'
+      unitsShort_one: '1 unità mancante',
+      unitsShort_other: '{n} unità mancanti',
+      days_one: '1 giorno',
+      days_other: '{n} giorni'
     },
     topProducts: {
       title: 'Prodotti migliori per ricavi',
@@ -113,7 +115,8 @@ export default {
     totalRevenue: 'Ricavi totali',
     avgOrderValue: 'Valore medio ordine',
     onTimeDelivery: 'Consegne puntuali',
-    itemsCount: '{count} articoli',
+    itemsCount_one: '1 articolo',
+    itemsCount_other: '{count} articoli',
     quantity: 'Qtà',
     table: {
       orderNumber: 'Numero ordine',
@@ -175,7 +178,8 @@ export default {
     increasingDemand: 'Domanda crescente',
     stableDemand: 'Domanda stabile',
     decreasingDemand: 'Domanda decrescente',
-    itemsCount: '{count} articoli',
+    itemsCount_one: '1 articolo',
+    itemsCount_other: '{count} articoli',
     more: 'altri...',
     demandForecasts: 'Previsioni domanda',
     table: {
@@ -231,8 +235,10 @@ export default {
     totalItems: 'Totale arretrati',
     cardTitle: 'Articoli in arretrato',
     noItems: 'Nessun arretrato — tutti gli ordini possono essere evasi!',
-    unitsShort: '{n} unità mancanti',
-    days: '{n} giorni',
+    unitsShort_one: '1 unità mancante',
+    unitsShort_other: '{n} unità mancanti',
+    days_one: '1 giorno',
+    days_other: '{n} giorni',
     table: {
       orderId: 'ID ordine',
       sku: 'SKU',

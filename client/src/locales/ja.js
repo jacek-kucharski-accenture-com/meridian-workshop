@@ -61,8 +61,8 @@ export default {
       shortage: '不足',
       daysDelayed: '遅延日数',
       priority: '優先度',
-      unitsShort: '単位不足',
-      days: '日'
+      unitsShort_other: '{n}単位不足',
+      days_other: '{n}日'
     },
     topProducts: {
       title: '収益別トップ製品',
@@ -117,7 +117,7 @@ export default {
     totalRevenue: '総収益',
     avgOrderValue: '平均注文額',
     onTimeDelivery: '定時配達',
-    itemsCount: '{count}件',
+    itemsCount_other: '{count}件',
     quantity: '数量',
     table: {
       orderNumber: '注文番号',
@@ -181,7 +181,7 @@ export default {
     increasingDemand: '需要増加',
     stableDemand: '需要安定',
     decreasingDemand: '需要減少',
-    itemsCount: '{count}件',
+    itemsCount_other: '{count}件',
     more: 'さらに...',
     demandForecasts: '需要予測',
     table: {
@@ -239,8 +239,8 @@ export default {
     totalItems: 'バックログ総件数',
     cardTitle: 'バックログ品目',
     noItems: 'バックログなし — すべての注文を履行できます！',
-    unitsShort: '{n}単位不足',
-    days: '{n}日',
+    unitsShort_other: '{n}単位不足',
+    days_other: '{n}日',
     table: {
       orderId: '注文ID',
       sku: 'SKU',

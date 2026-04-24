@@ -57,12 +57,12 @@
                 <td>{{ item.quantity_available }}</td>
                 <td>
                   <span class="badge danger">
-                    {{ t('backlog.unitsShort', { n: item.quantity_needed - item.quantity_available }) }}
+                    {{ plural('backlog.unitsShort', item.quantity_needed - item.quantity_available) }}
                   </span>
                 </td>
                 <td>
                   <span :class="item.days_delayed > 7 ? 'days-critical' : 'days-warning'">
-                    {{ t('backlog.days', { n: item.days_delayed }) }}
+                    {{ plural('backlog.days', item.days_delayed) }}
                   </span>
                 </td>
                 <td>
@@ -88,7 +88,7 @@ import { useI18n } from '../composables/useI18n'
 export default {
   name: 'Backlog',
   setup() {
-    const { t } = useI18n()
+    const { t, plural } = useI18n()
     const loading = ref(true)
     const error = ref(null)
     const allBacklogItems = ref([])
@@ -143,6 +143,7 @@ export default {
 
     return {
       t,
+      plural,
       loading,
       error,
       backlogItems,
