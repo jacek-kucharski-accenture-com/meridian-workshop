@@ -148,7 +148,7 @@
                 <div class="h-bar-label">{{ translateCategory(cat.name) }}</div>
                 <div class="h-bar-container">
                   <div class="h-bar" :style="{ width: (cat.value / maxCategoryValue * 100) + '%', background: cat.color }">
-                    <span class="h-bar-value">{{ selectedCurrency === 'JPY' ? formatCurrency(cat.value, selectedCurrency) : `$${(cat.value / 1000).toFixed(1)}K` }}</span>
+                    <span class="h-bar-value">{{ formatCurrency(cat.value, selectedCurrency) }}</span>
                   </div>
                 </div>
               </div>
@@ -312,7 +312,7 @@ export default {
     BacklogDetailModal,
   },
   setup() {
-    const { t, currentCurrency, translateProductName, translateWarehouse } = useI18n()
+    const { t, currentCurrency, currentNumberLocale, translateProductName, translateWarehouse } = useI18n()
     const loading = ref(true)
     const error = ref(null)
     const summary = ref({})
@@ -349,12 +349,9 @@ export default {
       return monthlyGoal // $800,000 for a single month
     })
 
-    const revenueGoalDisplay = computed(() => {
-      if (revenueGoal.value >= 1000000) {
-        return `$${(revenueGoal.value / 1000000).toFixed(1)}M`
-      }
-      return `$${(revenueGoal.value / 1000).toFixed(0)}K`
-    })
+    const revenueGoalDisplay = computed(() =>
+      formatCurrency(revenueGoal.value, currentCurrency.value, currentNumberLocale.value)
+    )
 
     const statusData = computed(() => {
       const counts = { delivered: 0, shipped: 0, processing: 0, backordered: 0 }
@@ -634,10 +631,8 @@ export default {
 
     const formatDate = (dateString) => {
       if (!dateString) return '-'
-      const { currentLocale } = useI18n()
-      const locale = currentLocale.value === 'ja' ? 'ja-JP' : 'en-US'
       const date = new Date(dateString)
-      return date.toLocaleDateString(locale, { month: 'short', day: 'numeric', year: 'numeric' })
+      return date.toLocaleDateString(currentNumberLocale.value, { month: 'short', day: 'numeric', year: 'numeric' })
     }
 
     const showProductDetail = (product) => {
@@ -671,6 +666,10 @@ export default {
       }
       showPOModal.value = false
     }
+
+    // Wrap imported formatCurrency to bind the current number locale
+    const boundFormatCurrency = (amount, currency) =>
+      formatCurrency(amount, currency || currentCurrency.value, currentNumberLocale.value)
 
     // Watch for filter changes and reload data
     watch([selectedPeriod, selectedLocation, selectedCategory, selectedStatus], () => {
@@ -711,7 +710,7 @@ export default {
       showBacklogDetail,
       selectedPeriod,
       selectedCurrency: currentCurrency,
-      formatCurrency,
+      formatCurrency: boundFormatCurrency,
       Math,
       translateProductName,
       translateWarehouse,

@@ -1,28 +1,19 @@
-// Currency conversion utility
-// USD to JPY exchange rate (approximate)
-const USD_TO_JPY = 150
-
-export function formatCurrency(amount, currency = 'USD') {
-  if (currency === 'JPY') {
-    const yenAmount = Math.round(amount * USD_TO_JPY)
-    return `¥${yenAmount.toLocaleString('ja-JP')}`
-  }
-  // Default USD
-  return `$${amount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`
+// Exchange rates relative to USD — sourced from xe.com on 2026-04-24
+export const EXCHANGE_RATES = {
+  USD: 1.0,
+  EUR: 0.855057,
+  JPY: 159.72,
+  PLN: 3.62961
 }
 
-export function formatCurrencyWithDecimals(amount, currency = 'USD', decimals = 0) {
-  if (currency === 'JPY') {
-    const yenAmount = Math.round(amount * USD_TO_JPY)
-    return `¥${yenAmount.toLocaleString('ja-JP')}`
-  }
-  // Default USD
-  return `$${amount.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}`
+export function convertFromUSD(amount, targetCurrency) {
+  return (amount || 0) * (EXCHANGE_RATES[targetCurrency] || 1)
 }
 
-export function convertAmount(amount, currency = 'USD') {
-  if (currency === 'JPY') {
-    return Math.round(amount * USD_TO_JPY)
-  }
-  return amount
+export function formatCurrency(amount, currency = 'USD', numberLocale = 'en-US') {
+  const converted = convertFromUSD(amount, currency)
+  return new Intl.NumberFormat(numberLocale, {
+    style: 'currency',
+    currency
+  }).format(converted)
 }
