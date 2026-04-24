@@ -32,6 +32,22 @@
     <div v-else-if="error" class="error">{{ error }}</div>
 
     <template v-else-if="result">
+      <!-- Budget progress bar -->
+      <div class="budget-progress-card card" v-if="result.budget > 0">
+        <div class="budget-progress-header">
+          <span>{{ formatCurrency(result.budget_used) }} {{ t('restocking.budgetSummary.used').toLowerCase() }}</span>
+          <span>{{ formatCurrency(result.budget_remaining) }} {{ t('restocking.budgetSummary.remaining').toLowerCase() }}</span>
+        </div>
+        <div class="budget-progress-track">
+          <div
+            class="budget-progress-fill"
+            :style="{ width: Math.min((result.budget_used / result.budget) * 100, 100) + '%' }"
+            :class="result.budget_used / result.budget > 0.9 ? 'fill-danger' : result.budget_used / result.budget > 0.7 ? 'fill-warning' : 'fill-ok'"
+          ></div>
+        </div>
+        <div class="budget-progress-pct">{{ ((result.budget_used / result.budget) * 100).toFixed(1) }}% {{ t('restocking.budgetSummary.used').toLowerCase() }}</div>
+      </div>
+
       <!-- Budget summary -->
       <div class="stats-grid">
         <div class="stat-card">
@@ -271,5 +287,42 @@ export default {
   background: #fffbeb;
   border-color: #fde68a;
   color: #92400e;
+}
+
+.budget-progress-card {
+  margin-bottom: 1.25rem;
+}
+
+.budget-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.813rem;
+  color: #64748b;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.budget-progress-track {
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.budget-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+.fill-ok { background: #22c55e; }
+.fill-warning { background: #f59e0b; }
+.fill-danger { background: #ef4444; }
+
+.budget-progress-pct {
+  margin-top: 0.375rem;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-align: right;
 }
 </style>

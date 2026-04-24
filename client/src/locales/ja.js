@@ -8,6 +8,7 @@ export default {
     demandForecast: '需要予測',
     reports: 'レポート',
     restocking: '補充管理',
+    backlog: 'バックログ',
     companyName: '触媒コンポーネンツ',
     subtitle: '在庫管理システム'
   },
@@ -28,6 +29,10 @@ export default {
     },
     summary: {
       title: '概要'
+    },
+    actions: {
+      createPO: '発注書作成',
+      viewPO: '発注書確認'
     },
     orderHealth: {
       title: '注文状況',
@@ -220,6 +225,31 @@ export default {
       avgMonthlyRevenue: '平均月次収益',
       totalOrders: '総注文数（年初来）',
       bestQuarter: '最高業績四半期'
+    }
+  },
+
+  // Backlog
+  backlog: {
+    title: 'バックログ管理',
+    description: '在庫不足の追跡と解決',
+    loading: 'バックログを読み込み中...',
+    highPriority: '高優先度',
+    mediumPriority: '中優先度',
+    lowPriority: '低優先度',
+    totalItems: 'バックログ総件数',
+    cardTitle: 'バックログ品目',
+    noItems: 'バックログなし — すべての注文を履行できます！',
+    unitsShort: '{n}単位不足',
+    days: '{n}日',
+    table: {
+      orderId: '注文ID',
+      sku: 'SKU',
+      itemName: '品目名',
+      quantityNeeded: '必要数量',
+      quantityAvailable: '在庫数量',
+      shortage: '不足',
+      daysDelayed: '遅延日数',
+      priority: '優先度'
     }
   },
 
