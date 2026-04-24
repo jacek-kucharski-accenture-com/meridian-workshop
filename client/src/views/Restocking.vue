@@ -138,7 +138,7 @@ export default {
   name: 'Restocking',
   setup() {
     const { selectedLocation, selectedCategory, getCurrentFilters } = useFilters()
-    const { t, currentLocale, currentCurrency, translateProductName } = useI18n()
+    const { t, currentCurrency, currentNumberLocale, translateProductName } = useI18n()
 
     const budget = ref(50000)
     const loading = ref(false)
@@ -146,12 +146,13 @@ export default {
     const result = ref(null)
     const allCandidatesCount = ref(0)
 
-    const currencySymbol = computed(() =>
-      currentCurrency.value === 'JPY' ? '¥' : '$'
-    )
+    const currencySymbol = computed(() => {
+      const symbols = { JPY: '¥', EUR: '€', PLN: 'zł' }
+      return symbols[currentCurrency.value] || '$'
+    })
 
     const formatCurrency = (num) =>
-      new Intl.NumberFormat(currentLocale.value === 'ja' ? 'ja-JP' : 'en-US', {
+      new Intl.NumberFormat(currentNumberLocale.value, {
         style: 'currency',
         currency: currentCurrency.value
       }).format(num || 0)

@@ -134,7 +134,7 @@ export default {
   name: 'Reports',
   setup() {
     const { getCurrentFilters, selectedPeriod, selectedLocation, selectedCategory, selectedStatus } = useFilters()
-    const { t, currentLocale, currentCurrency } = useI18n()
+    const { t, currentCurrency, currentNumberLocale } = useI18n()
 
     const loading = ref(true)
     const error = ref(null)
@@ -179,7 +179,7 @@ export default {
     onMounted(loadData)
 
     const formatCurrency = (num) => {
-      return new Intl.NumberFormat(currentLocale.value === 'ja' ? 'ja-JP' : 'en-US', {
+      return new Intl.NumberFormat(currentNumberLocale.value, {
         style: 'currency',
         currency: currentCurrency.value
       }).format(num || 0)

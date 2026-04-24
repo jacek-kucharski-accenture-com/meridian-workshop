@@ -1,20 +1,25 @@
 import { ref, computed } from 'vue'
 import en from '../locales/en'
 import ja from '../locales/ja'
+import pl from '../locales/pl'
+import it from '../locales/it'
 
 const translations = {
   en,
-  ja
+  ja,
+  pl,
+  it
 }
 
 // Load saved locale from localStorage, default to 'en'
 const savedLocale = localStorage.getItem('app-locale') || 'en'
 const currentLocale = ref(savedLocale)
 
-// Currency is automatically set based on locale (en -> USD, ja -> JPY)
-const currentCurrency = computed(() => {
-  return currentLocale.value === 'ja' ? 'JPY' : 'USD'
-})
+const currencyMap = { en: 'USD', ja: 'JPY', pl: 'PLN', it: 'EUR' }
+const numberLocaleMap = { en: 'en-US', ja: 'ja-JP', pl: 'pl-PL', it: 'it-IT' }
+
+const currentCurrency = computed(() => currencyMap[currentLocale.value] || 'USD')
+const currentNumberLocale = computed(() => numberLocaleMap[currentLocale.value] || 'en-US')
 
 export function useI18n() {
   const t = (key, params = {}) => {
@@ -69,7 +74,9 @@ export function useI18n() {
   const localeName = computed(() => {
     const names = {
       en: 'English',
-      ja: '日本語'
+      ja: '日本語',
+      pl: 'Polski',
+      it: 'Italiano'
     }
     return names[currentLocale.value] || currentLocale.value
   })
@@ -119,6 +126,7 @@ export function useI18n() {
     setLocale,
     currentLocale: computed(() => currentLocale.value),
     currentCurrency,
+    currentNumberLocale,
     availableLocales,
     localeName,
     translateProductName,
