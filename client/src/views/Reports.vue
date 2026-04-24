@@ -133,7 +133,7 @@ import { api } from '../api'
 export default {
   name: 'Reports',
   setup() {
-    const { getCurrentFilters, selectedPeriod, selectedLocation, selectedCategory } = useFilters()
+    const { getCurrentFilters, selectedPeriod, selectedLocation, selectedCategory, selectedStatus } = useFilters()
     const { t, currentLocale, currentCurrency } = useI18n()
 
     const loading = ref(true)
@@ -175,7 +175,7 @@ export default {
       }
     }
 
-    watch([selectedPeriod, selectedLocation, selectedCategory], loadData)
+    watch([selectedPeriod, selectedLocation, selectedCategory, selectedStatus], loadData)
     onMounted(loadData)
 
     const formatCurrency = (num) => {

@@ -231,10 +231,11 @@ def get_recent_transactions():
 def get_quarterly_reports(
     warehouse: Optional[str] = None,
     category: Optional[str] = None,
+    status: Optional[str] = None,
     month: Optional[str] = None
 ):
     """Get quarterly performance reports with optional filters"""
-    filtered = apply_filters(orders, warehouse, category)
+    filtered = apply_filters(orders, warehouse, category, status)
     filtered = filter_by_month(filtered, month)
 
     quarters = {}
@@ -273,10 +274,11 @@ def get_quarterly_reports(
 def get_monthly_trends(
     warehouse: Optional[str] = None,
     category: Optional[str] = None,
+    status: Optional[str] = None,
     month: Optional[str] = None
 ):
     """Get month-over-month trends with optional filters"""
-    filtered = apply_filters(orders, warehouse, category)
+    filtered = apply_filters(orders, warehouse, category, status)
     filtered = filter_by_month(filtered, month)
 
     months = {}
