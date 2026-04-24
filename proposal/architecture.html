@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architecture Overview — Meridian Components Inventory Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; color: #1e293b; padding: 32px; }
+
+  h1 { font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+  .meta { font-size: 13px; color: #64748b; margin-bottom: 32px; }
+
+  .diagram { display: grid; grid-template-columns: 1fr 60px 1fr 60px 1fr; gap: 0; align-items: start; margin-bottom: 40px; }
+
+  /* Layer boxes */
+  .layer { background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .layer-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid; }
+  .layer-vue .layer-title  { color: #059669; border-color: #10b981; }
+  .layer-api .layer-title  { color: #2563eb; border-color: #3b82f6; }
+  .layer-data .layer-title { color: #7c3aed; border-color: #8b5cf6; }
+
+  .box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px; margin-bottom: 6px; font-size: 13px; }
+  .box:last-child { margin-bottom: 0; }
+  .box-label { font-weight: 600; color: #1e293b; font-size: 12px; }
+  .box-sub { font-size: 11px; color: #64748b; margin-top: 2px; }
+  .box-gap { border-color: #fca5a5; background: #fff5f5; }
+  .box-gap .box-label { color: #dc2626; }
+
+  .box-group-label { font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin: 10px 0 5px; }
+
+  /* Arrow columns */
+  .arrow-col { display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 60px; }
+  .arrow { text-align: center; }
+  .arrow-line { width: 2px; height: 30px; background: #cbd5e1; margin: 0 auto; }
+  .arrow-head { font-size: 16px; color: #94a3b8; line-height: 1; }
+  .arrow-label { font-size: 10px; color: #94a3b8; margin-top: 4px; white-space: nowrap; }
+
+  /* Filter flow section */
+  .flow-section { margin-bottom: 40px; }
+  .flow-section h2 { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 14px; }
+  .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+  .flow-box { background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 14px; font-size: 12px; font-weight: 600; white-space: nowrap; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .flow-arrow { padding: 0 8px; color: #94a3b8; font-size: 16px; }
+  .flow-note { font-size: 11px; color: #64748b; margin-top: 6px; }
+
+  /* Gaps section */
+  .gaps-section { margin-bottom: 40px; }
+  .gaps-section h2 { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 14px; }
+  .gaps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .gap-card { background: white; border: 1px solid #fca5a5; border-radius: 8px; padding: 14px; }
+  .gap-card h3 { font-size: 12px; font-weight: 700; color: #dc2626; margin-bottom: 6px; }
+  .gap-card p { font-size: 12px; color: #64748b; line-height: 1.5; }
+
+  /* Port reference */
+  .ref-section { margin-bottom: 40px; }
+  .ref-section h2 { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 14px; }
+  .ref-table { width: 100%; border-collapse: collapse; font-size: 13px; background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; }
+  .ref-table th { background: #f1f5f9; font-weight: 600; color: #475569; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 10px 14px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+  .ref-table td { padding: 10px 14px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+  .ref-table tr:last-child td { border-bottom: none; }
+  code { background: #f1f5f9; padding: 1px 5px; border-radius: 3px; font-family: monospace; font-size: 12px; color: #2563eb; }
+</style>
+</head>
+<body>
+
+<h1>Architecture Overview — Meridian Inventory Dashboard</h1>
+<p class="meta">Current state as of April 2026 &nbsp;·&nbsp; Prepared by vendor during engagement onboarding &nbsp;·&nbsp; Stack: Vue 3 + FastAPI + JSON files</p>
+
+<!-- Main diagram -->
+<div class="diagram">
+
+  <!-- Frontend layer -->
+  <div class="layer layer-vue">
+    <div class="layer-title">Frontend &nbsp;·&nbsp; Vue 3 + Vite &nbsp;·&nbsp; :3000</div>
+
+    <div class="box-group-label">Root</div>
+    <div class="box">
+      <div class="box-label">App.vue</div>
+      <div class="box-sub">Navigation, FilterBar, LanguageSwitcher, modals</div>
+    </div>
+
+    <div class="box-group-label">Views (router)</div>
+    <div class="box"><div class="box-label">Dashboard.vue</div><div class="box-sub">/ — KPI summary cards</div></div>
+    <div class="box"><div class="box-label">Inventory.vue</div><div class="box-sub">/inventory — stock levels</div></div>
+    <div class="box"><div class="box-label">Orders.vue</div><div class="box-sub">/orders — order list + filters</div></div>
+    <div class="box"><div class="box-label">Demand.vue</div><div class="box-sub">/demand — forecast trends</div></div>
+    <div class="box"><div class="box-label">Spending.vue</div><div class="box-sub">/spending — supplier costs</div></div>
+    <div class="box box-gap"><div class="box-label">Reports.vue ⚠</div><div class="box-sub">/reports — does not use global filters</div></div>
+    <div class="box"><div class="box-label">Backlog.vue</div><div class="box-sub">/backlog — unfulfilled orders</div></div>
+
+    <div class="box-group-label">Composables</div>
+    <div class="box"><div class="box-label">useFilters.js</div><div class="box-sub">Global filter state (period, warehouse, category, status)</div></div>
+    <div class="box"><div class="box-label">useI18n.js</div><div class="box-sub">Translations (en/ja), locale, currency</div></div>
+    <div class="box"><div class="box-label">useAuth.js</div><div class="box-sub">Current user / profile data</div></div>
+
+    <div class="box-group-label">API Client</div>
+    <div class="box"><div class="box-label">api.js</div><div class="box-sub">All fetch calls → localhost:8001/api</div></div>
+  </div>
+
+  <!-- Arrow 1 -->
+  <div class="arrow-col">
+    <div class="arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-head">→</div>
+      <div class="arrow-label">HTTP/JSON</div>
+    </div>
+  </div>
+
+  <!-- Backend layer -->
+  <div class="layer layer-api">
+    <div class="layer-title">Backend &nbsp;·&nbsp; FastAPI (Python) &nbsp;·&nbsp; :8001</div>
+
+    <div class="box-group-label">Routes (main.py)</div>
+    <div class="box"><div class="box-label">GET /api/dashboard/summary</div><div class="box-sub">warehouse, category, status, month filters</div></div>
+    <div class="box"><div class="box-label">GET /api/inventory[/{id}]</div><div class="box-sub">warehouse, category filters</div></div>
+    <div class="box"><div class="box-label">GET /api/orders[/{id}]</div><div class="box-sub">warehouse, category, status, month filters</div></div>
+    <div class="box"><div class="box-label">GET /api/demand</div><div class="box-sub">no filters</div></div>
+    <div class="box"><div class="box-label">GET /api/backlog</div><div class="box-sub">enriched with has_purchase_order flag</div></div>
+    <div class="box"><div class="box-label">GET /api/spending/*</div><div class="box-sub">summary, monthly, categories, transactions</div></div>
+    <div class="box box-gap"><div class="box-label">GET /api/reports/* ⚠</div><div class="box-sub">quarterly + monthly-trends — no filter params accepted</div></div>
+    <div class="box"><div class="box-label">POST /api/purchase-orders</div><div class="box-sub">create purchase order</div></div>
+    <div class="box box-gap"><div class="box-label">/api/tasks/* ⚠</div><div class="box-sub">referenced in api.js but not implemented in main.py</div></div>
+
+    <div class="box-group-label">Filtering (main.py)</div>
+    <div class="box"><div class="box-label">filter_by_month()</div><div class="box-sub">supports 'all', YYYY-MM, Q1-2025 format</div></div>
+    <div class="box"><div class="box-label">apply_filters()</div><div class="box-sub">warehouse, category, status — case-insensitive</div></div>
+
+    <div class="box-group-label">Data Loader</div>
+    <div class="box"><div class="box-label">mock_data.py</div><div class="box-sub">Loads all JSON files into memory at startup</div></div>
+  </div>
+
+  <!-- Arrow 2 -->
+  <div class="arrow-col">
+    <div class="arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-head">→</div>
+      <div class="arrow-label">in-memory</div>
+    </div>
+  </div>
+
+  <!-- Data layer -->
+  <div class="layer layer-data">
+    <div class="layer-title">Data Layer &nbsp;·&nbsp; JSON files &nbsp;·&nbsp; server/data/</div>
+
+    <div class="box-group-label">Files</div>
+    <div class="box"><div class="box-label">orders.json</div><div class="box-sub">~200 orders, 2025-01 to 2025-12. Fields: id, order_number, customer, items[], status, warehouse, category, order_date, total_value</div></div>
+    <div class="box"><div class="box-label">inventory.json</div><div class="box-sub">Stock items per warehouse. Fields: id, sku, name, category, warehouse, stock_quantity, unit_cost, reorder_point</div></div>
+    <div class="box"><div class="box-label">demand_forecasts.json</div><div class="box-sub">Per-SKU demand trends (increasing / stable / decreasing), weekly_demand</div></div>
+    <div class="box"><div class="box-label">backlog_items.json</div><div class="box-sub">Unfulfilled order items with priority and days_delayed</div></div>
+    <div class="box"><div class="box-label">spending.json</div><div class="box-sub">Contains 3 subfields: summary, monthly, categories</div></div>
+    <div class="box"><div class="box-label">transactions.json</div><div class="box-sub">Individual transaction records</div></div>
+    <div class="box"><div class="box-label">purchase_orders.json</div><div class="box-sub">Currently empty [] — populated at runtime via POST</div></div>
+
+    <div class="box-group-label">Warehouses</div>
+    <div class="box"><div class="box-label">San Francisco · London · Tokyo</div><div class="box-sub">Tokyo opened 2023; staff primarily Japanese-speaking</div></div>
+
+    <div class="box-group-label">Categories</div>
+    <div class="box"><div class="box-sub">Sensors · Actuators · Controllers · Circuit Boards · Power Supplies</div></div>
+  </div>
+
+</div>
+
+<!-- Filter flow -->
+<div class="flow-section">
+  <h2>Filter Data Flow</h2>
+  <div class="flow">
+    <div class="flow-box" style="border-color:#10b981; color:#059669">FilterBar.vue</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">useFilters.js<br><span style="font-weight:400;color:#64748b">reactive state</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">api.js<br><span style="font-weight:400;color:#64748b">query params</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="border-color:#3b82f6; color:#2563eb">FastAPI endpoint<br><span style="font-weight:400;color:#64748b">?warehouse=&category=&month=</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">apply_filters()<br><span style="font-weight:400;color:#64748b">in-memory filter</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">Pydantic response<br><span style="font-weight:400;color:#64748b">JSON</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="border-color:#10b981; color:#059669">Vue computed<br><span style="font-weight:400;color:#64748b">reactive render</span></div>
+  </div>
+  <p class="flow-note">⚠ Reports.vue bypasses this flow entirely — it calls its own endpoints directly without watching useFilters state.</p>
+</div>
+
+<!-- Known gaps -->
+<div class="gaps-section">
+  <h2>Known Gaps (baseline, April 2026)</h2>
+  <div class="gaps-grid">
+    <div class="gap-card">
+      <h3>R1 — Reports filter disconnect</h3>
+      <p>Reports.vue does not subscribe to useFilters. The global FilterBar has no effect on the Reports page. Backend reports endpoints also accept no filter query params.</p>
+    </div>
+    <div class="gap-card">
+      <h3>R1 — Reports i18n missing</h3>
+      <p>All labels in Reports.vue are hardcoded English strings. The t() translation function and currentCurrency from useI18n are not wired up.</p>
+    </div>
+    <div class="gap-card">
+      <h3>R2 — No restocking endpoint</h3>
+      <p>No /api/restocking endpoint exists. inventory.json and demand_forecasts.json have the data needed to compute recommendations; endpoint and Vue view are to be built.</p>
+    </div>
+    <div class="gap-card">
+      <h3>R3 — No browser tests</h3>
+      <p>No Playwright or other E2E test suite exists. Backend unit tests exist in tests/backend/ but no front-end or integration coverage.</p>
+    </div>
+    <div class="gap-card">
+      <h3>Options API remnants</h3>
+      <p>Previous vendor left some components using the Vue 2-style Options API. Migration to Composition API is incomplete across the codebase.</p>
+    </div>
+    <div class="gap-card">
+      <h3>/api/tasks not implemented</h3>
+      <p>api.js has getTasks(), createTask(), deleteTask(), toggleTask() methods but main.py has no matching routes. These calls will 404 at runtime.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Runtime reference -->
+<div class="ref-section">
+  <h2>Runtime Reference</h2>
+  <table class="ref-table">
+    <thead>
+      <tr><th>Service</th><th>Port</th><th>Start command</th><th>Log</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Frontend (Vite dev)</td><td><code>3000</code></td><td><code>cd client && npm run dev</code></td><td><code>/tmp/inventory-frontend.log</code></td></tr>
+      <tr><td>Backend (FastAPI)</td><td><code>8001</code></td><td><code>cd server && .venv/bin/python main.py</code></td><td><code>/tmp/inventory-backend.log</code></td></tr>
+      <tr><td>API docs (Swagger)</td><td><code>8001</code></td><td>http://localhost:8001/docs</td><td>—</td></tr>
+      <tr><td>Backend tests</td><td>—</td><td><code>cd server && .venv/bin/pytest ../tests/backend/</code></td><td>stdout</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
