@@ -6,6 +6,8 @@ export default {
     orders: 'Orders',
     finance: 'Finance',
     demandForecast: 'Demand Forecast',
+    reports: 'Reports',
+    restocking: 'Restocking',
     companyName: 'Catalyst Components',
     subtitle: 'Inventory Management System'
   },
@@ -219,6 +221,40 @@ export default {
       totalOrders: 'Total Orders (YTD)',
       bestQuarter: 'Best Performing Quarter'
     }
+  },
+
+  // Restocking
+  restocking: {
+    title: 'Restocking Recommendations',
+    description: 'Generate purchase recommendations based on stock levels, demand forecasts, and budget',
+    budgetLabel: 'Budget Ceiling',
+    budgetPlaceholder: 'Enter budget...',
+    generate: 'Generate Recommendations',
+    budgetSummary: {
+      total: 'Total Budget',
+      used: 'Budget Used',
+      remaining: 'Remaining'
+    },
+    table: {
+      sku: 'SKU',
+      name: 'Item Name',
+      warehouse: 'Warehouse',
+      category: 'Category',
+      currentStock: 'Current Stock',
+      weeksOfStock: 'Weeks of Stock',
+      suggestedQty: 'Suggested Qty',
+      unitCost: 'Unit Cost',
+      estimatedCost: 'Estimated Cost',
+      urgency: 'Urgency'
+    },
+    urgency: {
+      critical: 'Critical',
+      warning: 'Warning'
+    },
+    empty: 'No restocking needed — all items have sufficient stock for the selected filters.',
+    noMatch: 'No items fit within the budget. Try increasing your budget ceiling.',
+    loading: 'Generating recommendations...',
+    error: 'Failed to load recommendations'
   },
 
   // Filters

@@ -90,6 +90,24 @@ class DemandForecast(BaseModel):
     trend: str
     period: str
 
+class RestockingItem(BaseModel):
+    sku: str
+    name: str
+    warehouse: str
+    category: str
+    current_stock: int
+    weeks_of_stock: float
+    suggested_quantity: int
+    unit_cost: float
+    estimated_cost: float
+    urgency: str
+
+class RestockingResponse(BaseModel):
+    budget: float
+    budget_used: float
+    budget_remaining: float
+    recommendations: List[RestockingItem]
+
 class BacklogItem(BaseModel):
     id: str
     order_id: str
@@ -297,6 +315,63 @@ def get_monthly_trends(
     result = list(months.values())
     result.sort(key=lambda x: x['month'])
     return result
+
+@app.get("/api/restocking", response_model=RestockingResponse)
+def get_restocking_recommendations(
+    budget: float = 1_000_000,
+    warehouse: Optional[str] = None,
+    category: Optional[str] = None
+):
+    """Get restocking recommendations within a given budget"""
+    demand_by_sku = {item['item_sku']: item for item in demand_forecasts}
+    filtered_inventory = apply_filters(inventory_items, warehouse, category)
+
+    WEEKLY_DIVISOR = 4.33  # 30-day demand → weekly demand
+    TARGET_WEEKS = 8
+    THRESHOLD_WEEKS = 4
+
+    candidates = []
+    for item in filtered_inventory:
+        demand = demand_by_sku.get(item['sku'])
+        if not demand:
+            continue
+        weekly_demand = demand['current_demand'] / WEEKLY_DIVISOR
+        if weekly_demand <= 0:
+            continue
+        weeks_of_stock = item['quantity_on_hand'] / weekly_demand
+        if weeks_of_stock >= THRESHOLD_WEEKS:
+            continue
+        suggested_qty = max(1, int((TARGET_WEEKS - weeks_of_stock) * weekly_demand))
+        estimated_cost = round(suggested_qty * item['unit_cost'], 2)
+        urgency = 'critical' if weeks_of_stock < 2 else 'warning'
+        candidates.append({
+            'sku': item['sku'],
+            'name': item['name'],
+            'warehouse': item['warehouse'],
+            'category': item['category'],
+            'current_stock': item['quantity_on_hand'],
+            'weeks_of_stock': round(weeks_of_stock, 1),
+            'suggested_quantity': suggested_qty,
+            'unit_cost': item['unit_cost'],
+            'estimated_cost': estimated_cost,
+            'urgency': urgency
+        })
+
+    candidates.sort(key=lambda x: x['weeks_of_stock'])
+
+    recommendations = []
+    budget_used = 0.0
+    for candidate in candidates:
+        if budget_used + candidate['estimated_cost'] <= budget:
+            recommendations.append(candidate)
+            budget_used += candidate['estimated_cost']
+
+    return {
+        'budget': budget,
+        'budget_used': round(budget_used, 2),
+        'budget_remaining': round(budget - budget_used, 2),
+        'recommendations': recommendations
+    }
 
 if __name__ == "__main__":
     import uvicorn

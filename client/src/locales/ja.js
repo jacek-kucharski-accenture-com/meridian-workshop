@@ -6,6 +6,8 @@ export default {
     orders: '注文',
     finance: '財務',
     demandForecast: '需要予測',
+    reports: 'レポート',
+    restocking: '補充管理',
     companyName: '触媒コンポーネンツ',
     subtitle: '在庫管理システム'
   },
@@ -219,6 +221,40 @@ export default {
       totalOrders: '総注文数（年初来）',
       bestQuarter: '最高業績四半期'
     }
+  },
+
+  // Restocking
+  restocking: {
+    title: '補充推奨',
+    description: '在庫レベル、需要予測、予算に基づいて発注推奨を生成します',
+    budgetLabel: '予算上限',
+    budgetPlaceholder: '予算を入力...',
+    generate: '推奨を生成',
+    budgetSummary: {
+      total: '総予算',
+      used: '使用予算',
+      remaining: '残余予算'
+    },
+    table: {
+      sku: 'SKU',
+      name: '品目名',
+      warehouse: '倉庫',
+      category: 'カテゴリ',
+      currentStock: '現在の在庫',
+      weeksOfStock: '在庫週数',
+      suggestedQty: '推奨数量',
+      unitCost: '単価',
+      estimatedCost: '推定費用',
+      urgency: '緊急度'
+    },
+    urgency: {
+      critical: '緊急',
+      warning: '警告'
+    },
+    empty: '補充不要 — 選択したフィルターで全品目の在庫は十分です。',
+    noMatch: '予算内に収まる品目がありません。予算上限を増やしてください。',
+    loading: '推奨を生成中...',
+    error: '推奨の読み込みに失敗しました'
   },
 
   // Filters
